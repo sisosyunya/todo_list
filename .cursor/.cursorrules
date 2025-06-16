@@ -1,0 +1,125 @@
+## **1. Overview**
+
+Build a single-page TODO management app with **React (Typescript)** and **Zustand**. It will run locally but be structured for easy migration to a cloud backend in the future.
+
+---
+
+## **2. Purpose**
+
+- **Learning Goal** – Master state management and architecture patterns with React × Typescript × Zustand.
+- **Practical Value** – Deliver a simple yet easily extensible task-tracking tool.
+
+---
+
+## **3. Target Users**
+
+- Individual developers, students, and anyone who needs lightweight task management.
+
+---
+
+## **4. Functional Requirements**
+
+| **Category** | **Feature** | **Description** |
+| --- | --- | --- |
+| CRUD | Add Task | Register a new task with title only |
+|  | Edit Task | Inline-edit a task title |
+|  | Toggle Complete | Mark complete / active via checkbox |
+|  | Delete | Remove a single task or clear all |
+| List | Filter | View **All / Active / Completed** tasks |
+| Storage | Persistence | Auto-save & restore via localStorage |
+| UX | Remaining Count | Show active-task count in footer |
+|  | Keyboard Shortcuts | **Enter** adds, **Esc** cancels edit |
+
+---
+
+## **5. Non-Functional Requirements**
+
+| **Area** | **Requirement** |
+| --- | --- |
+| Performance | UI response ≤ 100 ms (local) |
+| Maintainability | Apply Atomic Design & split hooks for reusability |
+| Scalability | Isolate API layer → easy swap to Supabase later |
+| Portability | Responsive down to 320 px (mobile/tablet) |
+| Testing | Use vitest + Testing Library, ≥ 80 % coverage |
+| Type Safety | Compile entire codebase in strict mode |
+
+---
+
+## **6. Architecture Design**
+
+### **6.1 Tech Stack**
+
+- **Frontend**: React 18 + Vite + Typescript
+- **State**: Zustand (with persist, immer middleware)
+- **Styling**: Tailwind CSS
+- **~~Testing**: Vitest & @testing-library/react~~
+
+### **6.2 Domain Model**
+
+```
+type Task = {
+  id: string;        // UUID
+  title: string;
+  completed: boolean;
+  createdAt: number; // epoch ms
+  updatedAt: number;
+};
+```
+
+### **6.3 Zustand Store Blueprint**
+
+```
+interface TodoState {
+  tasks: Task[];
+  filter: 'all' | 'active' | 'completed';
+  addTask(title: string): void;
+  toggleTask(id: string): void;
+  updateTask(id: string, title: string): void;
+  deleteTask(id: string): void;
+  clearCompleted(): void;
+  setFilter(v: TodoState['filter']): void;
+}
+```
+
+### **6.4 Suggested Directory Layout**
+
+---
+
+```
+src/
+ ┣ components/
+ ┃ ┣ TodoInput.tsx
+ ┃ ┣ TodoList.tsx
+ ┃ ┗ TodoItem.tsx
+ ┣ stores/
+ ┃ ┗ useTodoStore.ts
+ ┣ hooks/
+ ┣ pages/
+ ┣ styles/
+ ┗ utils/
+```
+
+## **7. UI Structure (Atomic Design)**
+
+| **Layer** | **Component** | **Responsibility** |
+| --- | --- | --- |
+| Page | **App** | Routing & global layout |
+| Organism | **TodoSection** | Combines input, list, footer |
+| Molecule | **TodoList**, **FilterControls** | Functional blocks |
+| Atom | **TodoItem**, **Checkbox**, **Button** | Smallest UI parts |
+
+---
+
+## **8. Development & Deployment Flow**
+
+1. **Git** – Trunk-based development: feature branches ➜ PR ➜ main.
+2. **Deployment** – Static build deployed to **GitHub Pages** or **Vercel**.
+
+---
+
+## **10. Future Enhancements**
+
+- Sync with Supabase/PostgreSQL
+- OAuth authentication (Google, GitHub)
+- Dark mode & i18n (react-i18next)
+- Tags, due dates, and notifications

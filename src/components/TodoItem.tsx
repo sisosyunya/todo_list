@@ -11,7 +11,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({ task }) => {
     const [editValue, setEditValue] = useState(task.title);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { toggleTask, updateTask, deleteTask } = useTodoStore();
+    const toggleTask = useTodoStore((state) => state.toggleTask);
+    const updateTask = useTodoStore((state) => state.updateTask);
+    const deleteTask = useTodoStore((state) => state.deleteTask);
 
     useEffect(() => {
         if (isEditing && inputRef.current) {

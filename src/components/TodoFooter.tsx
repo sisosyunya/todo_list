@@ -1,18 +1,13 @@
 import React from 'react';
-import { useTodoStore } from '../stores/useTodoStore';
+import { useTodoStore, useActiveTasksCount, useCompletedTasksCount } from '../stores/useTodoStore';
 import type { FilterType } from '../types/todo';
 
 export const TodoFooter: React.FC = () => {
-    const {
-        filter,
-        setFilter,
-        activeTasksCount,
-        completedTasksCount,
-        clearCompleted,
-    } = useTodoStore();
-
-    const activeCount = activeTasksCount();
-    const completedCount = completedTasksCount();
+    const filter = useTodoStore((state) => state.filter);
+    const setFilter = useTodoStore((state) => state.setFilter);
+    const clearCompleted = useTodoStore((state) => state.clearCompleted);
+    const activeCount = useActiveTasksCount();
+    const completedCount = useCompletedTasksCount();
 
     const filters: { key: FilterType; label: string }[] = [
         { key: 'all', label: 'すべて' },

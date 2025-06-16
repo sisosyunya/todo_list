@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTodoStore } from '../stores/useTodoStore';
+import { useFilteredTasks } from '../stores/useTodoStore';
 import { TodoItem } from './TodoItem';
 
 export const TodoList: React.FC = () => {
-    const filteredTasks = useTodoStore((state) => state.filteredTasks());
+    const filteredTasks = useFilteredTasks();
 
     if (filteredTasks.length === 0) {
         return (
