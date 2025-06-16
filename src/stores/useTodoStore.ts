@@ -69,18 +69,6 @@ export const useTodoStore = create<TodoState>()(
 );
 
 // Selector functions
-export const useFilteredTasks = () =>
-    useTodoStore((state) => {
-        switch (state.filter) {
-            case 'active':
-                return state.tasks.filter((t) => !t.completed);
-            case 'completed':
-                return state.tasks.filter((t) => t.completed);
-            default:
-                return state.tasks;
-        }
-    });
-
 export const useActiveTasksCount = () =>
     useTodoStore((state) => state.tasks.filter((t) => !t.completed).length);
 

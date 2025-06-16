@@ -1,9 +1,21 @@
-import React from 'react';
-import { useFilteredTasks } from '../stores/useTodoStore';
+import React, { useMemo } from 'react';
+import { useTodoStore } from '../stores/useTodoStore';
 import { TodoItem } from './TodoItem';
 
 export const TodoList: React.FC = () => {
-    const filteredTasks = useFilteredTasks();
+    const tasks = useTodoStore((state) => state.tasks);
+    const filter = useTodoStore((state) => state.filter);
+
+    const filteredTasks = useMemo(() => {
+        switch (filter) {
+            case 'active':
+                return tasks.filter((t) => !t.completed);
+            case 'completed':
+                return tasks.filter((t) => t.completed);
+            default:
+                return tasks;
+        }
+    }, [tasks, filter]);
 
     if (filteredTasks.length === 0) {
         return (
